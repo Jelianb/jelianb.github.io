@@ -330,4 +330,27 @@ a:hover {
    ::-webkit-scrollbar-thumb:active {
      border: 2px inset #ffffff;
    }
+      /* --- Starfield Animations --- */
+   @keyframes scroll-stars-slow {
+     from { background-position: 0 0; }
+     /* Matches the background-size to create a seamless infinite loop */
+     to { background-position: 0 -250px; } 
+   }
+   
+   @keyframes scroll-stars-fast {
+     from { background-position: 0 0, 40px 60px; }
+     /* 3850px is the lowest common multiple of 550 and 350, ensuring a flawless loop for both layers */
+     to { background-position: 0 -3850px, 40px -3790px; } 
+   }
+   
+   @keyframes star-twinkle {
+     0%, 100% { opacity: 1; }
+     50% { opacity: 0.6; } /* Dims slightly halfway through */
+   }
+
+      /* Stop starfield movement and twinkling */
+     body::before, 
+     body::after {
+       animation: none;
+     }
 }
