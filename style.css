@@ -1,32 +1,30 @@
 /* =========================================
-   1. Design Tokens & Custom Properties
+   1. 90s Design Tokens & Variables
    ========================================= */
 :root {
-  /* Color Palette (Dark Theme Default for Devs) */
-  --clr-bg: #121212;
-  --clr-surface: #1e1e1e;
-  --clr-surface-hover: #2a2a2a;
-  --clr-text: #f3f4f6;
-  --clr-text-muted: #9ca3af;
-  --clr-primary: #10b981; /* Emerald green */
-  --clr-primary-focus: #34d399;
+  /* Classic Geocities "Hacker" Palette */
+  --clr-bg: #000000;
+  --clr-surface: #c0c0c0; /* Windows 95 Gray */
+  --clr-text-main: #00ff00; /* Neon Terminal Green */
+  --clr-text-dark: #000000;
+  --clr-primary: #ff00ff; /* Hot Magenta */
+  --clr-primary-focus: #ffff00; /* Bright Yellow */
+  --clr-link: #0000ff; /* Unvisited blue */
+  --clr-link-hover: #ff0000;
 
-  /* Typography (Fluid sizing) */
-  --fs-base: clamp(1rem, 0.95rem + 0.25vw, 1.25rem);
-  --fs-h1: clamp(2.5rem, 5vw + 1rem, 5rem);
-  --fs-h2: clamp(2rem, 3vw + 1rem, 3rem);
-  --fs-h3: clamp(1.25rem, 2vw + 0.5rem, 1.75rem);
+  /* Typography - System Monospace for that retro terminal feel */
+  --font-retro: "Courier New", Courier, "Lucida Sans Typewriter", "Lucida Typewriter", monospace;
+  
+  --fs-base: clamp(1rem, 0.95rem + 0.25vw, 1.15rem);
+  --fs-h1: clamp(2rem, 5vw + 1rem, 4rem);
+  --fs-h2: clamp(1.5rem, 3vw + 1rem, 2.5rem);
+  --fs-h3: clamp(1.1rem, 2vw + 0.5rem, 1.5rem);
 
-  /* Spacing Scale */
+  /* Spacing */
   --space-xs: 0.5rem;
   --space-sm: 1rem;
   --space-md: 2rem;
   --space-lg: 4rem;
-  --space-xl: 8rem;
-
-  /* Layout */
-  --max-width: 1200px;
-  --border-radius: 0.5rem;
 }
 
 /* =========================================
@@ -39,180 +37,186 @@
 }
 
 html {
-  scroll-behavior: smooth;
+  /* Enables native smooth scrolling */
+  scroll-behavior: smooth; 
+  /* Prevents anchor links from hiding behind our sticky header */
+  scroll-padding-top: 140px; 
 }
 
 body {
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-family: var(--font-retro);
   font-size: var(--fs-base);
-  color: var(--clr-text);
+  color: var(--clr-text-main);
   background-color: var(--clr-bg);
+  /* CSS-generated Starfield Background */
+  background-image: 
+    radial-gradient(white, rgba(255,255,255,.2) 2px, transparent 4px),
+    radial-gradient(white, rgba(255,255,255,.15) 1px, transparent 2px),
+    radial-gradient(white, rgba(255,255,255,.1) 2px, transparent 3px);
+  background-size: 550px 550px, 350px 350px, 250px 250px;
+  background-position: 0 0, 40px 60px, 130px 270px;
   line-height: 1.6;
-  -webkit-font-smoothing: antialiased;
 }
 
 /* Accessibility Focus States */
-:is(a, button, input, textarea):focus-visible {
-  outline: 3px dashed var(--clr-primary-focus);
+:is(a, button):focus-visible {
+  outline: 3px solid var(--clr-primary-focus);
   outline-offset: 4px;
-}
-
-img {
-  max-width: 100%;
-  display: block;
-}
-
-ul[class] {
-  list-style: none;
+  background-color: var(--clr-text-dark);
 }
 
 a {
-  text-decoration: none;
-  color: inherit;
+  text-decoration: underline;
+  color: var(--clr-primary);
+  font-weight: bold;
+  /* Smooth color transition */
+  transition: color 0.1s ease-in-out; 
+}
+
+a:hover {
+  color: var(--clr-primary-focus);
 }
 
 /* =========================================
    3. Utilities & Layout
    ========================================= */
 .container {
-  width: min(100% - 2rem, var(--max-width));
-  margin-inline: auto; /* Logical property */
+  width: min(100% - 2rem, 1000px);
+  margin-inline: auto;
 }
 
 .text-highlight {
   color: var(--clr-primary);
+  text-shadow: 2px 2px 0px var(--clr-text-main); /* 90s drop shadow */
 }
 
 .section-title {
   font-size: var(--fs-h2);
-  margin-block-end: var(--space-md); /* Logical property */
+  margin-block-end: var(--space-md);
+  text-align: center;
+  border-bottom: 2px dashed var(--clr-text-main);
+  padding-block-end: var(--space-xs);
 }
 
 /* =========================================
    4. Components
    ========================================= */
 
-/* Button */
-.btn {
-  display: inline-flex;
-  padding: var(--space-sm) var(--space-md);
-  border-radius: var(--border-radius);
-  font-weight: 600;
-  transition: background-color 0.2s ease, transform 0.2s ease;
-}
-
-.btn--primary {
+/* CSS-Only Scrolling Marquee */
+.retro-marquee {
   background-color: var(--clr-primary);
-  color: var(--clr-bg);
+  color: var(--clr-text-dark);
+  font-weight: bold;
+  padding-block: var(--space-xs);
+  overflow: hidden;
+  white-space: nowrap;
+  border-bottom: 4px ridge var(--clr-surface);
 }
 
-.btn--primary:is(:hover, :focus-visible) {
-  background-color: var(--clr-primary-focus);
-  transform: translateY(-2px);
+.retro-marquee__text {
+  display: inline-block;
+  padding-inline-start: 100%;
+  animation: scroll-left 15s linear infinite;
 }
 
-/* Header & Nav (Flexbox) */
+@keyframes scroll-left {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-100%); }
+}
+
+/* Buttons - Windows 95 Style */
+.btn {
+  display: inline-block;
+  padding: var(--space-sm) var(--space-md);
+  background-color: var(--clr-surface);
+  color: var(--clr-text-dark);
+  font-weight: 900;
+  text-decoration: none;
+  /* Classic 90s 3D Outset Border */
+  border: 4px outset #ffffff;
+  cursor: crosshair; /* Retro cursor! */
+}
+
+.btn:active {
+  /* Inset border when clicked */
+  border: 4px inset #ffffff;
+}
+
+/* Header & Nav */
 .header {
   padding-block: var(--space-md);
+  border-bottom: 3px double var(--clr-text-main);
+  margin-block-end: var(--space-md);
+  
+  /* Modern UX Additions */
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  /* Adds a solid background so the starfield doesn't bleed through the text */
+  background-color: var(--clr-bg); 
 }
+
 
 .nav {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  flex-wrap: wrap; /* Allows wrapping on very small screens */
+  flex-wrap: wrap;
   gap: var(--space-sm);
-}
-
-.nav__logo {
-  font-weight: 700;
-  font-size: var(--fs-h3);
 }
 
 .nav__list {
   display: flex;
   gap: var(--space-md);
-}
-
-.nav__link {
-  position: relative;
-  transition: color 0.2s ease;
-}
-
-.nav__link:hover {
-  color: var(--clr-primary);
+  list-style: none;
 }
 
 /* Hero Section */
 .hero {
-  padding-block: var(--space-xl) var(--space-lg);
-  max-width: 800px;
+  text-align: center;
+  padding-block: var(--space-lg);
 }
 
 .hero__title {
   font-size: var(--fs-h1);
-  line-height: 1.1;
   margin-block-end: var(--space-sm);
 }
 
 .hero__subtitle {
-  color: var(--clr-text-muted);
   font-size: var(--fs-h3);
   margin-block-end: var(--space-md);
 }
 
-/* Projects Grid (CSS Grid auto-fit) */
-.projects {
-  padding-block: var(--space-lg);
-}
-
+/* Projects Grid - Using auto-fit for responsive layout */
 .projects__grid {
   display: grid;
-  /* Automatically fits as many columns as possible, down to 300px min */
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: var(--space-md);
 }
 
-/* Project Card */
+/* Project Cards - Warning/Terminal Vibe */
 .project-card {
-  background-color: var(--clr-surface);
-  border-radius: var(--border-radius);
-  overflow: hidden;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  background-color: var(--clr-text-dark);
+  border: 3px solid var(--clr-text-main);
+  padding: var(--space-sm);
   display: flex;
   flex-direction: column;
+  /* Smooth border and background transition */
+  transition: border-color 0.1s ease, background-color 0.1s ease; 
 }
 
 .project-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-}
-
-.project-card__image-wrapper {
-  aspect-ratio: 16 / 9; /* Modern aspect-ratio property */
-  overflow: hidden;
-}
-
-.project-card__img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.project-card__content {
-  padding: var(--space-md);
-  display: flex;
-  flex-direction: column;
-  flex-grow: 1; /* Pushes tags to the bottom */
+  border-color: var(--clr-primary);
+  background-color: #111;
 }
 
 .project-card__title {
   font-size: var(--fs-h3);
   margin-block-end: var(--space-xs);
+  color: var(--clr-primary-focus);
 }
 
 .project-card__desc {
-  color: var(--clr-text-muted);
   margin-block-end: var(--space-md);
   flex-grow: 1;
 }
@@ -221,32 +225,81 @@ a {
   display: flex;
   flex-wrap: wrap;
   gap: var(--space-xs);
+  list-style: none;
 }
 
 .tag {
-  background-color: var(--clr-bg);
-  color: var(--clr-primary);
-  padding: 0.25rem 0.75rem;
-  border-radius: 100vw;
+  background-color: var(--clr-text-main);
+  color: var(--clr-text-dark);
+  padding: 0.1rem 0.5rem;
   font-size: 0.875rem;
-  font-weight: 500;
+  font-weight: bold;
 }
 
-/* Footer */
+/* Footer & Hit Counter */
 .footer {
   padding-block: var(--space-lg);
-  text-align: center;
-  color: var(--clr-text-muted);
+  border-top: 3px double var(--clr-text-main);
+  margin-block-start: var(--space-lg);
+}
+
+.footer__content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+.hit-counter {
+  border: 2px inset var(--clr-surface);
+  background-color: #000;
+  padding: 5px;
+  font-family: monospace;
+}
+
+.hit-counter__numbers {
+  color: #ff0000; /* Digital clock red */
+  letter-spacing: 3px;
+  font-size: 1.2rem;
 }
 
 /* =========================================
    5. Accessibility Overrides
    ========================================= */
 @media (prefers-reduced-motion: reduce) {
+  .retro-marquee__text {
+    animation: none;
+    padding-inline-start: 0;
+    white-space: normal;
+  }
+  
   *, *::before, *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
+   /* Custom Text Selection */
+   ::selection {
+  background-color: var(--clr-primary); /* Hot Magenta background */
+  color: var(--clr-text-dark); /* Black text */
+  text-shadow: none; /* Removes shadow for cleaner reading */
+   }
+
+
+   /* Custom 90s Scrollbar */
+   ::-webkit-scrollbar {
+     width: 16px;
+   }
+   
+   ::-webkit-scrollbar-track {
+     background: var(--clr-bg);
+     border-left: 2px dashed var(--clr-text-main);
+   }
+   
+   ::-webkit-scrollbar-thumb {
+     background-color: var(--clr-surface);
+     border: 2px outset #ffffff;
+   }
+   
+   ::-webkit-scrollbar-thumb:active {
+     border: 2px inset #ffffff;
+   }
 }
