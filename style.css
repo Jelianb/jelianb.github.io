@@ -348,9 +348,5 @@ a:hover {
      50% { opacity: 0.6; } /* Dims slightly halfway through */
    }
 
-      /* Stop starfield movement and twinkling */
-     body::before, 
-     body::after {
-       animation: none;
-     }
+
 }
