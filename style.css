@@ -28,7 +28,7 @@
 }
 
 /* =========================================
-   2. Reset & Base Styles
+   2. Reset & Base Styles (ACTUALIZADO)
    ========================================= */
 *, *::before, *::after {
   box-sizing: border-box;
@@ -41,15 +41,21 @@ html {
   scroll-behavior: smooth; 
   /* Prevents anchor links from hiding behind our sticky header */
   scroll-padding-top: 140px; 
+  
+  /* PARCHE: Movemos el fondo del universo a la raíz del documento */
+  background-color: var(--clr-bg); 
 }
 
 body {
   font-family: var(--font-retro);
   font-size: var(--fs-base);
   color: var(--clr-text-main);
-  background-color: var(--clr-bg); /* Keep the dark void */
+  
+  /* PARCHE: Hacemos el body transparente para que las estrellas (z-index: -1) brillen a través de él */
+  background-color: transparent; 
+  
   line-height: 1.6;
-  position: relative; /* Context for our pseudo-elements */
+  position: relative; /* Sigue sirviendo de ancla para posicionamientos futuros */
 }
 
 /* --- Parallax Twinkling Starfield --- */
