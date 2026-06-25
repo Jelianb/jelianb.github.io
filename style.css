@@ -156,6 +156,7 @@ a:hover {
   color: var(--clr-text-dark);
   font-weight: 900;
   text-decoration: none;
+  text-align: center; /* Agregado para robustez */
   /* Classic 90s 3D Outset Border */
   border: 4px outset #ffffff;
   cursor: crosshair; /* Retro cursor! */
