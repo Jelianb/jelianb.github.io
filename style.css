@@ -51,12 +51,13 @@ body {
   line-height: 1.6;
   position: relative; /* Context for our pseudo-elements */
 }
+
 /* --- Parallax Twinkling Starfield --- */
 body::before,
 body::after {
   content: "";
   position: fixed; /* Keeps stars fixed while the user scrolls the content */
-  inset: 0; /* Modern shorthand for top: 0, right: 0, bottom: 0, left: 0 */
+  inset: 0; 
   z-index: -1; /* Pushes the stars behind your content */
   pointer-events: none; /* Crucial: Prevents stars from blocking links/clicks */
   will-change: background-position, opacity; /* Browser performance hint */
@@ -147,11 +148,6 @@ a:hover {
   animation: scroll-left 15s linear infinite;
 }
 
-@keyframes scroll-left {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(-100%); }
-}
-
 /* Buttons - Windows 95 Style */
 .btn {
   display: inline-block;
@@ -183,7 +179,6 @@ a:hover {
   /* Adds a solid background so the starfield doesn't bleed through the text */
   background-color: var(--clr-bg); 
 }
-
 
 .nav {
   display: flex;
@@ -292,7 +287,59 @@ a:hover {
 }
 
 /* =========================================
-   5. Accessibility Overrides
+   5. Custom Scrollbar & Selection
+   ========================================= */
+/* Custom Text Selection */
+::selection {
+  background-color: var(--clr-primary); /* Hot Magenta background */
+  color: var(--clr-text-dark); /* Black text */
+  text-shadow: none; /* Removes shadow for cleaner reading */
+}
+
+/* Custom 90s Scrollbar */
+::-webkit-scrollbar {
+  width: 16px;
+}
+   
+::-webkit-scrollbar-track {
+  background: var(--clr-bg);
+  border-left: 2px dashed var(--clr-text-main);
+}
+   
+::-webkit-scrollbar-thumb {
+  background-color: var(--clr-surface);
+  border: 2px outset #ffffff;
+}
+   
+::-webkit-scrollbar-thumb:active {
+  border: 2px inset #ffffff;
+}
+
+/* =========================================
+   6. Keyframe Animations
+   ========================================= */
+@keyframes scroll-left {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-100%); }
+}
+
+@keyframes scroll-stars-slow {
+  from { background-position: 0 0; }
+  to { background-position: 0 -250px; } 
+}
+
+@keyframes scroll-stars-fast {
+  from { background-position: 0 0, 40px 60px; }
+  to { background-position: 0 -3850px, 40px -3790px; } 
+}
+
+@keyframes star-twinkle {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.6; } 
+}
+
+/* =========================================
+   7. Accessibility Overrides
    ========================================= */
 @media (prefers-reduced-motion: reduce) {
   .retro-marquee__text {
@@ -304,49 +351,10 @@ a:hover {
   *, *::before, *::after {
     scroll-behavior: auto !important;
   }
-   /* Custom Text Selection */
-   ::selection {
-  background-color: var(--clr-primary); /* Hot Magenta background */
-  color: var(--clr-text-dark); /* Black text */
-  text-shadow: none; /* Removes shadow for cleaner reading */
-   }
 
-
-   /* Custom 90s Scrollbar */
-   ::-webkit-scrollbar {
-     width: 16px;
-   }
-   
-   ::-webkit-scrollbar-track {
-     background: var(--clr-bg);
-     border-left: 2px dashed var(--clr-text-main);
-   }
-   
-   ::-webkit-scrollbar-thumb {
-     background-color: var(--clr-surface);
-     border: 2px outset #ffffff;
-   }
-   
-   ::-webkit-scrollbar-thumb:active {
-     border: 2px inset #ffffff;
-   }
-      /* --- Starfield Animations --- */
-   @keyframes scroll-stars-slow {
-     from { background-position: 0 0; }
-     /* Matches the background-size to create a seamless infinite loop */
-     to { background-position: 0 -250px; } 
-   }
-   
-   @keyframes scroll-stars-fast {
-     from { background-position: 0 0, 40px 60px; }
-     /* 3850px is the lowest common multiple of 550 and 350, ensuring a flawless loop for both layers */
-     to { background-position: 0 -3850px, 40px -3790px; } 
-   }
-   
-   @keyframes star-twinkle {
-     0%, 100% { opacity: 1; }
-     50% { opacity: 0.6; } /* Dims slightly halfway through */
-   }
-
-
+  /* Stop starfield movement and twinkling safely */
+  body::before, 
+  body::after {
+    animation: none !important;
+  }
 }
