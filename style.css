@@ -47,15 +47,43 @@ body {
   font-family: var(--font-retro);
   font-size: var(--fs-base);
   color: var(--clr-text-main);
-  background-color: var(--clr-bg);
-  /* CSS-generated Starfield Background */
+  background-color: var(--clr-bg); /* Keep the dark void */
+  line-height: 1.6;
+  position: relative; /* Context for our pseudo-elements */
+}
+/* --- Parallax Twinkling Starfield --- */
+body::before,
+body::after {
+  content: "";
+  position: fixed; /* Keeps stars fixed while the user scrolls the content */
+  inset: 0; /* Modern shorthand for top: 0, right: 0, bottom: 0, left: 0 */
+  z-index: -1; /* Pushes the stars behind your content */
+  pointer-events: none; /* Crucial: Prevents stars from blocking links/clicks */
+  will-change: background-position, opacity; /* Browser performance hint */
+}
+
+/* Layer 1: Distant, slower stars */
+body::before {
+  background-image: 
+    radial-gradient(white, rgba(255,255,255,.1) 2px, transparent 3px);
+  background-size: 250px 250px;
+  /* Animates scroll and a slow twinkle */
+  animation: 
+    scroll-stars-slow 40s linear infinite,
+    star-twinkle 4s ease-in-out infinite;
+}
+
+/* Layer 2: Closer, faster stars */
+body::after {
   background-image: 
     radial-gradient(white, rgba(255,255,255,.2) 2px, transparent 4px),
-    radial-gradient(white, rgba(255,255,255,.15) 1px, transparent 2px),
-    radial-gradient(white, rgba(255,255,255,.1) 2px, transparent 3px);
-  background-size: 550px 550px, 350px 350px, 250px 250px;
-  background-position: 0 0, 40px 60px, 130px 270px;
-  line-height: 1.6;
+    radial-gradient(white, rgba(255,255,255,.15) 1px, transparent 2px);
+  background-size: 550px 550px, 350px 350px;
+  background-position: 0 0, 40px 60px;
+  /* Faster scroll, offset twinkle for organic feel */
+  animation: 
+    scroll-stars-fast 20s linear infinite,
+    star-twinkle 3s ease-in-out infinite 1.5s; 
 }
 
 /* Accessibility Focus States */
