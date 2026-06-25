@@ -1,0 +1,252 @@
+/* =========================================
+   1. Design Tokens & Custom Properties
+   ========================================= */
+:root {
+  /* Color Palette (Dark Theme Default for Devs) */
+  --clr-bg: #121212;
+  --clr-surface: #1e1e1e;
+  --clr-surface-hover: #2a2a2a;
+  --clr-text: #f3f4f6;
+  --clr-text-muted: #9ca3af;
+  --clr-primary: #10b981; /* Emerald green */
+  --clr-primary-focus: #34d399;
+
+  /* Typography (Fluid sizing) */
+  --fs-base: clamp(1rem, 0.95rem + 0.25vw, 1.25rem);
+  --fs-h1: clamp(2.5rem, 5vw + 1rem, 5rem);
+  --fs-h2: clamp(2rem, 3vw + 1rem, 3rem);
+  --fs-h3: clamp(1.25rem, 2vw + 0.5rem, 1.75rem);
+
+  /* Spacing Scale */
+  --space-xs: 0.5rem;
+  --space-sm: 1rem;
+  --space-md: 2rem;
+  --space-lg: 4rem;
+  --space-xl: 8rem;
+
+  /* Layout */
+  --max-width: 1200px;
+  --border-radius: 0.5rem;
+}
+
+/* =========================================
+   2. Reset & Base Styles
+   ========================================= */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: var(--fs-base);
+  color: var(--clr-text);
+  background-color: var(--clr-bg);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Accessibility Focus States */
+:is(a, button, input, textarea):focus-visible {
+  outline: 3px dashed var(--clr-primary-focus);
+  outline-offset: 4px;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+ul[class] {
+  list-style: none;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* =========================================
+   3. Utilities & Layout
+   ========================================= */
+.container {
+  width: min(100% - 2rem, var(--max-width));
+  margin-inline: auto; /* Logical property */
+}
+
+.text-highlight {
+  color: var(--clr-primary);
+}
+
+.section-title {
+  font-size: var(--fs-h2);
+  margin-block-end: var(--space-md); /* Logical property */
+}
+
+/* =========================================
+   4. Components
+   ========================================= */
+
+/* Button */
+.btn {
+  display: inline-flex;
+  padding: var(--space-sm) var(--space-md);
+  border-radius: var(--border-radius);
+  font-weight: 600;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.btn--primary {
+  background-color: var(--clr-primary);
+  color: var(--clr-bg);
+}
+
+.btn--primary:is(:hover, :focus-visible) {
+  background-color: var(--clr-primary-focus);
+  transform: translateY(-2px);
+}
+
+/* Header & Nav (Flexbox) */
+.header {
+  padding-block: var(--space-md);
+}
+
+.nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap; /* Allows wrapping on very small screens */
+  gap: var(--space-sm);
+}
+
+.nav__logo {
+  font-weight: 700;
+  font-size: var(--fs-h3);
+}
+
+.nav__list {
+  display: flex;
+  gap: var(--space-md);
+}
+
+.nav__link {
+  position: relative;
+  transition: color 0.2s ease;
+}
+
+.nav__link:hover {
+  color: var(--clr-primary);
+}
+
+/* Hero Section */
+.hero {
+  padding-block: var(--space-xl) var(--space-lg);
+  max-width: 800px;
+}
+
+.hero__title {
+  font-size: var(--fs-h1);
+  line-height: 1.1;
+  margin-block-end: var(--space-sm);
+}
+
+.hero__subtitle {
+  color: var(--clr-text-muted);
+  font-size: var(--fs-h3);
+  margin-block-end: var(--space-md);
+}
+
+/* Projects Grid (CSS Grid auto-fit) */
+.projects {
+  padding-block: var(--space-lg);
+}
+
+.projects__grid {
+  display: grid;
+  /* Automatically fits as many columns as possible, down to 300px min */
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: var(--space-md);
+}
+
+/* Project Card */
+.project-card {
+  background-color: var(--clr-surface);
+  border-radius: var(--border-radius);
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  display: flex;
+  flex-direction: column;
+}
+
+.project-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+.project-card__image-wrapper {
+  aspect-ratio: 16 / 9; /* Modern aspect-ratio property */
+  overflow: hidden;
+}
+
+.project-card__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.project-card__content {
+  padding: var(--space-md);
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1; /* Pushes tags to the bottom */
+}
+
+.project-card__title {
+  font-size: var(--fs-h3);
+  margin-block-end: var(--space-xs);
+}
+
+.project-card__desc {
+  color: var(--clr-text-muted);
+  margin-block-end: var(--space-md);
+  flex-grow: 1;
+}
+
+.project-card__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-xs);
+}
+
+.tag {
+  background-color: var(--clr-bg);
+  color: var(--clr-primary);
+  padding: 0.25rem 0.75rem;
+  border-radius: 100vw;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+/* Footer */
+.footer {
+  padding-block: var(--space-lg);
+  text-align: center;
+  color: var(--clr-text-muted);
+}
+
+/* =========================================
+   5. Accessibility Overrides
+   ========================================= */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
